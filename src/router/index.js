@@ -74,7 +74,20 @@ export const constantRoutes = [
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
         meta: { title: '默认菜单', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'fill-info',
+        component: () => import('@/views/fill-info/index'),
+        name: 'FillInfo',
+        meta: { title: '填入信息' }
+      },
+      {
+        path: 'page-list',
+        component: () => import('@/views/page-list/index'),
+        name: 'PageList',
+        meta: { title: '操作设置' }
       }
+
     ]
   }
 ]
