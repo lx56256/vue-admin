@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import Vuex from 'vuex'
 import PanThumb from '@/components/PanThumb'
 import Mallki from '@/components/TextHoverEffect/Mallki'
 
@@ -52,7 +52,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
+    ...Vuex.mapGetters([
       'name',
       'avatar',
       'roles'

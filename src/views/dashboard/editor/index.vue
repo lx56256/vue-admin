@@ -18,9 +18,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import PanThumb from '@/components/PanThumb'
-import GithubCorner from '@/components/GithubCorner'
+import Vuex from 'vuex'
+// import PanThumb from '@/components/PanThumb'
+// import GithubCorner from '@/components/GithubCorner'
+const PanThumb = () => import ('@/components/PanThumb')
+const GithubCorner = () => import ('@/components/GithubCorner')
 
 export default {
   name: 'DashboardEditor',
@@ -31,7 +33,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
+    ...Vuex.mapGetters([
       'name',
       'avatar',
       'roles'

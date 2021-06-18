@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import ThemePicker from '@/components/ThemePicker'
+// import ThemePicker from '@/components/ThemePicker'
+const ThemePicker = () => import ('@/components/ThemePicker')
 
 export default {
   components: { ThemePicker },

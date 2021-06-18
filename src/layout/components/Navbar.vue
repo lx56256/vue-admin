@@ -27,10 +27,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-import Search from '@/components/HeaderSearch'
+import Vuex from 'vuex'
+// import Breadcrumb from '@/components/Breadcrumb'
+// import Hamburger from '@/components/Hamburger'
+// import Search from '@/components/HeaderSearch'
+
+const Breadcrumb = () => import('@/components/Breadcrumb')
+const Hamburger = () => import('@/components/Hamburger')
+const Search = () => import('@/components/HeaderSearch')
 
 export default {
   components: {
@@ -39,7 +43,7 @@ export default {
     Search
   },
   computed: {
-    ...mapGetters([
+    ...Vuex.mapGetters([
       'sidebar',
       'avatar',
       'device'

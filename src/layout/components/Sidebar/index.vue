@@ -19,15 +19,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import Vuex from 'vuex'
 import Logo from './Logo'
-import SidebarItem from './SidebarItem'
+// import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
+const SidebarItem = () => import ('./SidebarItem')
 
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapGetters([
+    ...Vuex.mapGetters([
       'permission_routes',
       'sidebar'
     ]),

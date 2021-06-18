@@ -24,7 +24,8 @@
       <el-form-item label="首页logo" prop="indexImageUrl">
         <el-upload
           class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://api.lixu365.com/image/upload"
+          :headers="headers"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
@@ -36,10 +37,10 @@
       <el-form-item label="商品封面" prop="itemLogo">
         <el-upload
           class="avatar-uploader"
-          action="http://127.0.0.1:5000/image/upload"
+          action="https://api.lixu365.com/image/upload"
           :headers="headers"
           :show-file-list="false"
-          :on-success="handleAvatarSuccess"
+          :on-success="handleItemLogoSuccess"
           :before-upload="beforeAvatarUpload">
           <img v-if="form.itemLogo" :src="form.itemLogo" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -104,9 +105,31 @@ export default {
         }
       });
     },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+    handleAvatarSuccess(res) {
+      if (res.code === 1) {
+        const { data: { imageUrl = '' } } = res;
+        this.form.indexImageUrl = imageUrl;
+        this.$message({
+          message: '上传成功',
+          type: 'success'
+        });
+      } else {
+        this.$message.error('上传失败');
+      }
     },
+    handleItemLogoSuccess(res) {
+      if (res.code === 1) {
+        const { data: { imageUrl = '' } } = res;
+        this.form.itemLogo = imageUrl;
+        this.$message({
+          message: '上传成功',
+          type: 'success'
+        });
+      } else {
+        this.$message.error('上传失败');
+      }
+    },
+
     beforeAvatarUpload(file) {
       console.log(file)
       const isLt2M = file.size / 1024 / 1024 < 2;

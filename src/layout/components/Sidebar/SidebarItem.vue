@@ -27,8 +27,10 @@
 <script>
 import path from 'path'
 import { isExternal } from '@/utils/validate'
-import Item from './Item'
-import AppLink from './Link'
+// import Item from './Item'
+// import AppLink from './Link'
+const Item = () => import ('./Item')
+const AppLink = () => import ('./Link')
 import FixiOSBug from './FixiOSBug'
 
 export default {

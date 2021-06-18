@@ -1,6 +1,5 @@
-import Vue from 'vue'
-import SvgIcon from '@/components/SvgIcon'// svg component
-
+import Vue from 'vue'// svg component
+const SvgIcon = () => import('@/components/SvgIcon')
 // register globally
 Vue.component('svg-icon', SvgIcon)
 

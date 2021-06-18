@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -48,7 +47,7 @@ service.interceptors.response.use(
     const errMsg = res.msg || '请求出错'
     // if the custom code is not 20000, it is judged as an error.
     if (res.code === 0) {
-      Message({
+      this.$message({
         message: errMsg,
         type: 'error',
         duration: 5 * 1000
@@ -57,7 +56,7 @@ service.interceptors.response.use(
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
+        this.$msgbox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
           cancelButtonText: 'Cancel',
           type: 'warning'
@@ -75,7 +74,7 @@ service.interceptors.response.use(
   error => {
     console.log('err', { error } ) // for debug
     const { msg } = error.response.data;
-    Message({
+    this.$message({
       message: msg || '请求失败',
       type: 'error',
       duration: 5 * 1000

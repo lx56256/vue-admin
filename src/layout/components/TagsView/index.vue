@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import ScrollPane from './ScrollPane'
+// import ScrollPane from './ScrollPane'
+const ScrollPane = () => import ('./ScrollPane')
 import path from 'path'
 
 export default {

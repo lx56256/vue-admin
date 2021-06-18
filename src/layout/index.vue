@@ -16,10 +16,12 @@
 </template>
 
 <script>
-import RightPanel from '@/components/RightPanel'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+// import RightPanel from '@/components/RightPanel'
+const RightPanel = () => import ('@/components/RightPanel')
+import { AppMain, Navbar, Sidebar, TagsView } from './components'
+// const { AppMain, Navbar, Settings, Sidebar, TagsView } = () => import ('./components')
 import ResizeMixin from './mixin/ResizeHandler'
-import { mapState } from 'vuex'
+import Vuex from 'vuex'
 
 export default {
   name: 'Layout',
@@ -27,13 +29,12 @@ export default {
     AppMain,
     Navbar,
     RightPanel,
-    Settings,
     Sidebar,
     TagsView
   },
   mixins: [ResizeMixin],
   computed: {
-    ...mapState({
+    ...Vuex.mapState({
       sidebar: state => state.app.sidebar,
       device: state => state.app.device,
       showSettings: state => state.settings.showSettings,

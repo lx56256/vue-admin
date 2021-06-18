@@ -5,9 +5,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import adminDashboard from './admin'
-import editorDashboard from './editor'
+import Vuex from 'vuex'
+// import adminDashboard from './admin'
+const adminDashboard = () => import ('./admin')
+// import editorDashboard from './editor'
+const editorDashboard = () => import ('./editor')
 
 export default {
   name: 'Dashboard',
@@ -18,7 +20,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
+    ...Vuex.mapGetters([
       'roles'
     ])
   },
