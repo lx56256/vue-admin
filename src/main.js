@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 
-import '@/styles/index.scss' // global css
+import '@/styles/index.scss'
 
 const App = () => import ('./App')
 import store from './store'

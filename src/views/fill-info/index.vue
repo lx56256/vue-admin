@@ -1,48 +1,48 @@
 <template>
   <div class="wrapper">
-    <h3>创建商品信息</h3>
+    <h3>创建卡片信息</h3>
     <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-      <el-form-item label="商品名称" prop="name">
+      <el-form-item label="名称" prop="title">
         <el-col :span="12">
-          <el-input v-model="form.name" />
+          <el-input v-model="form.title" />
         </el-col>
       </el-form-item>
-      <el-form-item label="商品类型" prop="kinds">
+      <el-form-item label="类型" prop="type">
         <el-col :span="12">
-          <el-select v-model="form.kinds" placeholder="请选择活动区域">
+          <el-select v-model="form.type" placeholder="请选择活动区域">
             <el-option label="技能" value="skill" />
             <el-option label="理财" value="investment" />
             <el-option label="生活" value="live" />
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="活动形式" prop="desc">
+      <el-form-item label="活动形式" prop="rich_text">
         <el-col :span="12">
-          <el-input type="textarea" v-model="form.desc"></el-input>
+          <el-input type="textarea" v-model="form.rich_text"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item label="首页logo" prop="indexImageUrl">
+      <el-form-item label="首页logo" prop="index_logo">
         <el-upload
           class="avatar-uploader"
-          action="http://api.lixu365.com/image/upload"
+          action="http://127.0.0.1:5000/image/upload"
           :headers="headers"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
-          <img v-if="form.indexImageUrl" :src="form.indexImageUrl" class="avatar">
+          <img v-if="form.index_logo" :src="form.index_logo" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
 
-      <el-form-item label="商品封面" prop="itemLogo">
+      <el-form-item label="商品封面" prop="item_logo">
         <el-upload
           class="avatar-uploader"
-          action="https://api.lixu365.com/image/upload"
+          action="http://127.0.0.1:5000/image/upload"
           :headers="headers"
           :show-file-list="false"
           :on-success="handleItemLogoSuccess"
           :before-upload="beforeAvatarUpload">
-          <img v-if="form.itemLogo" :src="form.itemLogo" class="avatar">
+          <img v-if="form.item_logo" :src="form.item_logo" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -57,6 +57,7 @@
 
 <script>
 import { getToken } from '../../utils/auth';
+import { createData, modifyData, queryPageDataDetail } from '../../api/user'
 export default {
   name: "FillInfo",
   computed: {
@@ -69,23 +70,23 @@ export default {
   data() {
     return {
       form: {
-        name: '',
-        kinds: '',
-        desc: '',
-        indexImageUrl: '',
-        itemLogo: '',
+        title: '',
+        type: '',
+        rich_text: '',
+        index_logo: 'https://lixu365.com/upload-img/1624197940541.png',
+        item_logo: 'https://lixu365.com/upload-img/1624197895208.png',
       },
       rules: {
-        name: [
+        title: [
           { required: true, message: '请输入商品名称', trigger: 'blur' },
         ],
-        kinds: [
+        type: [
           { required: true, message: '请选择商品类型', trigger: 'change' }
         ],
-        desc: [
+        rich_text: [
           { required: true, message: '请填写商品描述', trigger: 'blur' }
         ],
-        indexImageUrl: [
+        index_logo: [
           { required: true, message: '请上传图片', trigger: 'blur' }
         ],
         itemLogo: [
@@ -94,14 +95,39 @@ export default {
       },
     }
   },
+  async mounted() {
+    const { item_id } = this.$route.query;
+    this.item_id = item_id;
+    if (item_id) {
+      try {
+        const res = await queryPageDataDetail({ item_id });
+        if (res.code === 1) {
+          const { item_logo, rich_text, title, type, index_logo } = res.data || {}
+          this.form = { item_logo, rich_text, title, type, index_logo };
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  },
   methods: {
     onSubmit(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
+          (this.item_id ? modifyData({...this.form, item_id: this.item_id}) :
+            createData(this.form)).then(res => {
+            if (res.code === 1) {
+              this.$message({
+                message: this.item_id ? '修改成功': '创建成功',
+                type: 'success'
+              });
+              this.$router.push('page-list');
+            } else {
+              this.$message.error(this.item_id ? '修改失败': '创建失败');
+            }
+          }).catch(err => {
+            console.log(err);
+          })
         }
       });
     },
@@ -142,7 +168,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 .el-col-2 {
   text-align: center;
