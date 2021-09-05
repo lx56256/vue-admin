@@ -69,11 +69,10 @@ module.exports = {
           config.plugin('webpack-bundle-analyzer')
           .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
           config
-            .devtool('cheap-module-eval-source-map')
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-              defaultAttribute: 'async',
+              inline: /runtime\..*\.js$/
             }])
             .end()
           config
