@@ -24,7 +24,7 @@
       <el-form-item label="首页logo" prop="index_logo">
         <el-upload
           class="avatar-uploader"
-          action="http://127.0.0.1:5000/image/upload"
+          action="https://api.lixu365.com/image/upload"
           :headers="headers"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
@@ -37,7 +37,7 @@
       <el-form-item label="商品封面" prop="item_logo">
         <el-upload
           class="avatar-uploader"
-          action="http://127.0.0.1:5000/image/upload"
+          action="https://api.lixu365.com/image/upload"
           :headers="headers"
           :show-file-list="false"
           :on-success="handleItemLogoSuccess"
@@ -73,8 +73,8 @@ export default {
         title: '',
         type: '',
         rich_text: '',
-        index_logo: 'https://lixu365.com/upload-img/1624197940541.png',
-        item_logo: 'https://lixu365.com/upload-img/1624197895208.png',
+        index_logo: '',
+        item_logo: '',
       },
       rules: {
         title: [
@@ -133,8 +133,8 @@ export default {
     },
     handleAvatarSuccess(res) {
       if (res.code === 1) {
-        const { data: { imageUrl = '' } } = res;
-        this.form.indexImageUrl = imageUrl;
+        const { data } = res;
+        this.form['index_logo'] = data.imageUrl;
         this.$message({
           message: '上传成功',
           type: 'success'
@@ -143,10 +143,10 @@ export default {
         this.$message.error('上传失败');
       }
     },
-    handleItemLogoSuccess(res) {
-      if (res.code === 1) {
-        const { data: { imageUrl = '' } } = res;
-        this.form.itemLogo = imageUrl;
+    handleItemLogoSuccess(res2) {
+      if (res2.code === 1) {
+        const { data: { imageUrl = '' } } = res2;
+        this.form['item_logo'] = imageUrl;
         this.$message({
           message: '上传成功',
           type: 'success'
