@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h3>创建卡片信息</h3>
+    <h3>{{isEdit ? '修改' : '创建'}}信息</h3>
     <el-form ref="form" :rules="rules" :model="form" label-width="80px">
       <el-form-item label="名称" prop="title">
         <el-col :span="12">
@@ -24,7 +24,7 @@
       <el-form-item label="首页logo" prop="index_logo">
         <el-upload
           class="avatar-uploader"
-          action="https://api.lixu365.com/image/upload"
+          action="https://api.admin.lixu365.com/image/upload"
           :headers="headers"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
@@ -37,7 +37,7 @@
       <el-form-item label="商品封面" prop="item_logo">
         <el-upload
           class="avatar-uploader"
-          action="https://api.lixu365.com/image/upload"
+          action="https://api.admin.lixu365.com/image/upload"
           :headers="headers"
           :show-file-list="false"
           :on-success="handleItemLogoSuccess"
@@ -48,7 +48,7 @@
       </el-form-item>
  
       <el-form-item>
-        <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit('form')">{{isEdit ? '立即修改': '立即创建'}}</el-button>
         <el-button>取消</el-button>
       </el-form-item>
     </el-form>
@@ -76,6 +76,7 @@ export default {
         index_logo: '',
         item_logo: '',
       },
+      isEdit: false,
       rules: {
         title: [
           { required: true, message: '请输入商品名称', trigger: 'blur' },
@@ -89,7 +90,7 @@ export default {
         index_logo: [
           { required: true, message: '请上传图片', trigger: 'blur' }
         ],
-        itemLogo: [
+        item_logo: [
           { required: true, message: '请上传图片', trigger: 'blur' }
         ]
       },
@@ -99,6 +100,7 @@ export default {
     const { item_id } = this.$route.query;
     this.item_id = item_id;
     if (item_id) {
+      this.isEdit = true;
       try {
         const res = await queryPageDataDetail({ item_id });
         if (res.code === 1) {
@@ -175,6 +177,10 @@ export default {
 }
 .wrapper {
   margin-left: 30px;
+
+  h3 {
+    margin: 20px 0;
+  }
 
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;

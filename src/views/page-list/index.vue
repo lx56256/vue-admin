@@ -1,5 +1,17 @@
 <template>
   <div class="wrapper">
+    <h3>信息列表</h3>
+    <div class="search">
+      <el-select size="small" v-model="selectValue" placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-button size="small" class="search-btn" @click="searchData" type="primary">查询</el-button>
+    </div>
   <el-table
     :data="tableData"
     border
@@ -54,7 +66,19 @@
         <el-button @click="editItemInfo(scope.row)" type="text" size="small">编辑</el-button>
       </template>
     </el-table-column>
-  </el-table>
+    </el-table>
+
+    <div class="footer">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="current"
+        :page-size="pageSize"
+        :page-sizes="[5, 10, 20, 30]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="count">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -71,6 +95,20 @@ export default {
   data() {
     return {
       tableData: [],
+      count: 0,
+      pageSize: 10,
+      current: 1,
+      selectValue: '',
+      options: [{
+          value: 'skill',
+          label: '技能'
+        }, {
+          value: 'investment',
+          label: '投资'
+        }, {
+          value: 'live',
+          label: '生活'
+        }],
     };
   },
   filters: {
@@ -82,14 +120,18 @@ export default {
     }
   },
   created() {
-    this.getPageData();
+    this.getPageData({ type: this.selectValue });
   },
   methods: {
-    async getPageData() {
+    async getPageData(params) {
       try {
-        const res = await queryPageData();
+        const { pageNumber = 0, pageSize = 10, type } = params;
+        const res = await queryPageData({
+          pageNumber, pageSize, type,
+        });
         if (res.code === 1) {
-          this.tableData = res.data || []
+          this.tableData = res.data.dataList || []
+          this.count = res.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -112,6 +154,31 @@ export default {
       }
     },
 
+    handleCurrentChange(page) {
+      this.current = page;
+      this.getPageData({
+        pageSize: this.pageSize,
+        pageNumber: (page - 1) * this.pageSize,
+        type: this.selectValue
+      });
+    },
+
+    searchData() {
+      this.getPageData({
+        pageSize: this.pageSize,
+        pageNumber: 0,
+        type: this.selectValue,
+      });
+    },
+
+    handleSizeChange(pageSize) {
+      this.pageSize = pageSize;
+      this.getPageData({
+        pageSize,
+        pageNumber: 0,
+        type: this.selectValue,
+      });
+    },
     editItemInfo(row) {
       const { item_id } = row;
       this.$router.push(`/fill-info?item_id=${item_id}`);
@@ -124,5 +191,17 @@ export default {
   .wrapper {
     padding: 20px;
     margin: 30px;
+  }
+
+  .footer {
+    margin: 20px 0;
+  }
+
+  .search {
+    margin: 20px 0;
+  }
+
+  .search-btn {
+    margin-left: 15px;
   }
 </style>

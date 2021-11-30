@@ -102,6 +102,9 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
+    document.addEventListener('visibilitychange', () => {
+      console.log('实行', document.hidden)
+    })
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {

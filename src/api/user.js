@@ -39,18 +39,19 @@ export function deleteData(data) {
   })
 }
 
-export function queryPageData() {
+export function queryPageData(params) {
   return request({
     url: '/pages/getQueryPageData',
     method: 'get',
+    params, 
   })
 }
 
-export function queryPageDataDetail(param) {
+export function queryPageDataDetail(params) {
   return request({
     url: '/pages/getQueryPageDetail',
     method: 'get',
-    params: param,
+    params,
   })
 }
 
