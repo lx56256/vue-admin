@@ -7,10 +7,8 @@
     <meta http-equiv="x-dns-prefetch-control" content="on">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="dns-prefetch" href="https://unpkg.com" />
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-    <link rel="dns-prefetch" href="https://cdn.bootcdn.net" />
-    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.5.4/lib/theme-chalk/index.css">
+    <link rel="dns-prefetch" href="https://lf26-cdn-tos.bytecdntp.com" />
+    <link rel="stylesheet" href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/element-ui/2.5.4/theme-chalk/index.css">
     <title><%= webpackConfig.name %></title>
     <% for (var css in htmlWebpackPlugin.files.css) { %>
     <link href="<%=htmlWebpackPlugin.files.css[css] %>" rel="preload" as="style">
@@ -21,11 +19,11 @@
     <% for (var png in htmlWebpackPlugin.files.png) { %>
     <link href="<%=htmlWebpackPlugin.files.png[png] %>" rel="preload" as="image">
     <% } %>
-    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.18.1/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10"></script>
-    <script src="https://unpkg.com/vue-router@3.0.2/dist/vue-router.js"></script>
-    <script src="https://unpkg.com/vuex@3.1.0"></script>
-    <script src="https://unpkg.com/element-ui@2.5.4/lib/index.js"></script>
+    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.18.1/axios.min.js"></script>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.0/vue.min.js"></script>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue-router/3.0.2/vue-router.min.js"></script>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/vuex/3.1.0/vuex.min.js"></script>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/element-ui/2.5.4/index.js"></script>
   </head>
   <body>
     <div id="app"></div>
